@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume</title>
+  <meta name="description" content="My resume site">
+  <meta name="author" content="" />
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div id="visits">Visits: 1000</div>
+      <h1 class="name">Brett Stephen</h1>
+      <p class="address">somewhere in Florida</p>
+      <p class="contact">(954) 648-9966 | <a href="mailto:bstephen777@gmail.com">bstephen777@gmail.com</a> |
+        <a href="">LinkedIn</a>
+      </p>
+    </header>
+    <section>
+      <h2>TECHNICAL SKILLS</h2>
+      <ul>
+        <li>
+          AWS: Identity and access management, EC2, S3 storage services, Databases, DNS using Route 53, VPCs, ELB,
+          Autoscaling, CloudFront, CloudWatch, CloudTrail and high level understanding of application services such as
+          SNS, SQS, SWF, CloudFormation, Cognito, API Gateway, Lambda and Kinesis.
+        </li>
+        <li>
+          Linux: Managing users, configuring services, Apache-PHP-MYSQL setup, server configuration, Virtual host setup,
+          network troubleshooting, using SSH to connect to remote hosts and general troubleshooting.
+        </li>
+        <li>
+          Intermediate SQL: Database installation, creating and updating tables, writing queries with joins, etc.
+        </li>
+        <li>
+          Basic Python programming: Building a basic calculator, Mad Libs Game, Building a Multiple Choice Quiz,
+          functions, lists, loops etc.
+        </li>
+        <li></li>
+        </ol>
+    </section>
+    <section>
+      <h2>CORE COMPETENCIES</h2>
+      <hr>
+    </section>
+    <section>
+      <h2>PERSONAL HANDS-ON PROJECTS:</h2>
+      <hr>
+    </section>
+    <section>
+      <h2>CERTIFICATIONS:</h2>
+      <hr>
+      <ul>
+        <li>AWS Certified Solutions Architect Associate</li>
+        </ol>
+    </section>
+    <section>
+      <h2>EXPERIENCE:</h2>
+      <hr>
+      <p>Quick Notes - Cooper City, Florida</p>
+      <p>Software Developer</p>
+      <p>February 2010 – July 2016</p>
+      <p>
+        Used various open-source technologies, namely, JavaScript, jQuery, jQuery Mobile to create their PDQ Touch Notes
+        Mobile Web App which assists doctors and therapists in getting their documentation done timely and efficiently.
+        Designed and implemented the company's website and ensured cross-browser compatibility. Worked as software
+        support for the company's EMR Desktop Software and barcode scanner devices.
+      </p>
+    </section>
+    <section>
+      <h2>EDUCATION:</h2>
+      <hr>
+      <div>
+        <p>Nova Southeastern University - Davie Florida - December 2008</p>
+        <p>Bachelor of Science in Computer Information Systems</p>
+        <p>Cumulative GPA of 3.63</p>
+      </div>
+      <div>
+        <p>Dade Community College - Kendall Florida</p>
+        <p>Associate in Arts in Business Administration</p>
+      </div>
+    </section>
+    <section>
+      <h2>SOCIETY:</h2>
+      <hr>
+      <ul>
+        <li>Member of Delta Epsilon Iota - September 2008</li>
+        </ol>
+    </section>
+    <section>
+      <h2>LANGUAGES:</h2>
+      <hr>
+      <ul>
+        <li>English</li>
+        </ol>
+    </section>
+    <section>
+      <h2>REFERENCES:</h2>
+      <hr>
+      <p>Can be provided upon request.</p>
+    </section>
+    <footer>
+      <p>Created by: Brett Stephen &copy;<span><em id="date"></em></span></p>
+    </footer>
+  </div>
+  <script>
+    (function (w) {
+      var year = " " + new Date().getFullYear();
+      w.document.getElementById("date").innerHTML = year;
+    })(window);
+
+    (async (win) => {
+
+      // const URL = 'https://7yvyi2oxj1.execute-api.us-east-1.amazonaws.com/prod/visits';
+
+      // let response = await fetch(URL, []);
+      // console.log(response)
+      // if (response.ok) {
+      //   if (response.status === 200) {
+      //     let json = await response.json();
+
+      // let el = win.document.getElementById('visits');
+      // el.style.display = 'block';
+      // el.children[0].innerHTML = json.visits.visits;
+      //     document.getElementById('site-visits').innerText = json.visits.visits;
+      //   }
+      // } else {
+      //   alert(`HTTP-Error: ${response.status}`)
+      // }
+
+    })(window);
+  </script>
+</body>
+
+</html>
