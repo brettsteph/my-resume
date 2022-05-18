@@ -190,11 +190,11 @@
       const URL = API + '/visits';
 
       let response = await fetch(URL, options);
-      console.log(response)
+      
       if (response.ok) {
         if (response.status === 200) {
           let json = await response.json();
-          console.log(json)
+          
           let el = win.document.getElementById('visits');
           el.children[0].textContent = json.visits;
         }
