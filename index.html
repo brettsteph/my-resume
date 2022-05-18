@@ -8,7 +8,7 @@
   <title>Resume</title>
   <meta name="description" content="My resume site">
   <meta name="author" content="" />
-  <link rel="icon" href="/favicon.ico">
+  <!-- <link rel="icon" href="/favicon.ico"> -->
   <link rel="stylesheet" href="./styles.css">
 </head>
 
@@ -71,13 +71,20 @@
       <ul>
         <li>
           <a href="https://cloudresumechallenge.dev/docs/the-challenge/aws/" target="_blank">Cloud resume challenge</a>
-          (similar): Coded a static resume site running it on serverless infrastructure provisioned using Terraform with a CI/CD pipeline. HTML5, CSS, JavaScript, AWS S3, Route53, Certificates Manager, CloudFront, API Gateway, Lambda, Python (Boto3), DynamoDB, Terraform, and Github Actions for CI/CD.
+          (similar): Coded a static resume site running it on serverless infrastructure provisioned using Terraform with
+          a CI/CD pipeline. HTML5, CSS, JavaScript, AWS S3, Route53, Certificates Manager, CloudFront, API Gateway,
+          Lambda, Python (Boto3), DynamoDB, Terraform, and Github Actions for CI/CD.
         </li>
         <li>
-          Designed a logically isolated virtual network and utilized Amazon VPC service to launch AWS resources. Created a public and private subnet, used the private subnet for a database to protect it from the internet and used the public subnet for web servers. Elastic Load Balancing was used to automatically distribute incoming application traffic across multiple targets.
+          Designed a logically isolated virtual network and utilized Amazon VPC service to launch AWS resources. Created
+          a public and private subnet, used the private subnet for a database to protect it from the internet and used
+          the public subnet for web servers. Elastic Load Balancing was used to automatically distribute incoming
+          application traffic across multiple targets.
         </li>
         <li>
-          Hosted several web applications, such as, PHP-MySQL and NodeJS-MySQL demo apps. Used Amazon’s S3 for code storage and Amazon’s EC2 service to provide secure, resizable compute capacity with Amazon’s EC2 Auto Scaling and Amazon’s RDS MySQL for relational data storage.
+          Hosted several web applications, such as, PHP-MySQL and NodeJS-MySQL demo apps. Used Amazon’s S3 for code
+          storage and Amazon’s EC2 service to provide secure, resizable compute capacity with Amazon’s EC2 Auto Scaling
+          and Amazon’s RDS MySQL for relational data storage.
         </li>
         <li>
           Coded a Pomodoro Timer single-page application and deployed it to Amazon S3 and CloudFront.
@@ -167,6 +174,7 @@
       <p>Created by: Brett Stephen &copy;<span><em id="date"></em></span></p>
     </footer>
   </div>
+  <script src="invoke-url.js"></script>
   <script>
     (function (w) {
       var year = " " + new Date().getFullYear();
@@ -176,11 +184,10 @@
     (async (win) => {
 
       const options = {
-        method: 'PUT',
+        method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       }
-
-      const URL = 'https://et4uk0dd6k.execute-api.us-east-1.amazonaws.com/prod/visit';
+      const URL = API + '/visits';
 
       let response = await fetch(URL, options);
       console.log(response)
@@ -189,7 +196,6 @@
           let json = await response.json();
           console.log(json)
           let el = win.document.getElementById('visits');
-          // el.style.display = 'block';
           el.children[0].textContent = json.visits;
         }
       } else {
