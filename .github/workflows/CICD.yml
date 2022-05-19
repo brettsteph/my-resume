@@ -73,13 +73,13 @@ jobs:
           # SOURCE_DIR: "resume-site" # optional: defaults to entire repository
 
       - name: Get API Gateway ID and store in environmnt variable
-        run: echo rest_api_id=aws apigateway get-rest-apis --query 'items[?name==`${{secrets.AWS_API_GATEWAY_NAME}}`].id' --output text >> $GITHUB_ENV
+        run: echo rest_api_id=aws apigateway get-rest-apis --query "items[?name==`${{secrets.AWS_API_GATEWAY_NAME}}`].id" --output text >> $GITHUB_ENV
 
       - name: Export API invoke url to a JavaScript file
         run: echo const API = {{ env.rest_api_id }}.execute-api.us-east-1.amazonaws.com/prod > ./website/invoke-url.js
 
       - name: Copy to S3
-        run: aws s3 sync . s3://{AWS_S3_BUCKET}" --exclude '.gitignore' --exclude '.git*/*' --follow-symlinks --delete
+        run: aws s3 sync . s3://{AWS_S3_BUCKET}" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
         env:
           AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
           # aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
