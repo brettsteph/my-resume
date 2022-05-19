@@ -103,6 +103,6 @@ jobs:
           aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
           aws-region: "us-east-1" # optional: defaults to us-east-1
       - name: Store Cloudfront Distribution Id in env variable
-        run: echo distribution_id=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin==${{secrets.AWS_S3_BUCKET}}].id" --output text >> $GITHUB_ENV
+        run: echo distribution_id=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin==secrets.AWS_S3_BUCKET].id" --output text >> $GITHUB_ENV
       - name: Invalidate Cloudfront
-        run: aws cloudfront create-invalidation --distribution-id ${{ env.distribution_id }} --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id env.distribution_id --paths "/*"
