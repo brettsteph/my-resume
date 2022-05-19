@@ -40,7 +40,7 @@ jobs:
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
   job-upload-site:
     name: sync website files to s3 bucket and invalidate CloudFront
@@ -48,6 +48,20 @@ jobs:
     needs: job-build
     runs-on: ubuntu-latest
     steps:
+      - name: Build Site
+        run: |
+          echo "BuildSite"
+          sleep 5s
+      - uses: convictional/trigger-workflow-and-wait@v1.6.1
+        with:
+          owner: igadget777
+          repo: Cloud-Resume-Challenge-Infra
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          workflow_file_name: CICD.yml
+      - name: Deploy Web App
+        run: |
+          echo "Deploy Web App"
+          sleep 25s
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: Set AWS Credentials
