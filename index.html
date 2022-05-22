@@ -38,7 +38,7 @@
     <section>
       <h2>Technical Skills</h2>
       <hr>
-      <ul>
+      <ol>
         <li>
           <b>AWS Cloud</b>: IAM, EC2, S3, Databases, DNS using Route 53, VPCs, ELB, Elastic Beanstalk, EFS, Autoscaling,
           CloudFront, API Gateway, Lambda, CloudWatch, CloudTrail, Session Manager, and high level understanding of
@@ -63,7 +63,7 @@
           <b>Learning</b>: Automate the Boring Stuff with Python Programming (<a
             href="https://cloudresumechallenge.dev/docs/the-challenge/aws/" target="_blank">Udemy course</a>)
         </li>
-        </ol>
+      </ol>
     </section>
     <section>
       <h2>Personal Projects:</h2>
@@ -135,7 +135,7 @@
         </ul>
       </div>
       <div class="experience">
-        <p><b>Malcolm Stephen & Sons Ltd.<span class="title"> &ndash; Technology Consultant</span></b></p>
+        <p><b>Malcolm Stephen &amp; Sons Ltd.<span class="title"> &ndash; Technology Consultant</span></b></p>
         <p class="date">August 2016 &ndash; July 2019</p>
         <ul>
           <li>
@@ -150,7 +150,7 @@
         <ul>
           <li>
             Created PDQ Touch Notes web app which assists doctors and therapists in getting their documentation done
-            efficiently. Coded with: JavaScript, jQuery, jQuery Mobile, HTML, CSS, & SQL.
+            efficiently. Coded with: JavaScript, jQuery, jQuery Mobile, HTML, CSS, &amp; SQL.
           </li>
           <li>
             Designed and coded a cross&ndash;browser compatible website. Coded with: PHP, HTML, & CSS.
@@ -189,11 +189,11 @@
       }
       const URL = API + '/visits';
       let response = await fetch(URL, options);
-      
+
       if (response.ok) {
         if (response.status === 200) {
           let json = await response.json();
-          
+
           let el = win.document.getElementById('visits');
           el.children[0].textContent = json.visits;
         }
