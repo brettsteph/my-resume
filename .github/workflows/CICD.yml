@@ -56,7 +56,7 @@ jobs:
           owner: igadget777
           repo: Cloud-Resume-Challenge-Infra
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
-          workflow_file_name: CICD.yml
+          workflow_file_name: Infra-CICD.yml
       - name: job-upload-site is next
         run: |
           echo "Upload site"
