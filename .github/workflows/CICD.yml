@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI-CD
+name: Website Upload && CloudFront Invalidation
 
 # Controls when the workflow will run
 on:
@@ -101,7 +101,6 @@ jobs:
     needs: job-upload-site
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: Set AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
