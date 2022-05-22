@@ -15,7 +15,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  job-build:
+  job-lint:
     # Name the Job
     name: Lint Code Base
     # Set the agent to run on
@@ -44,6 +44,7 @@ jobs:
 
   job-infrastructure:
     name: Make sure infrastructure is up and running
+    needs: job-lint
     runs-on: ubuntu-latest
     steps:
       - name: Build Site
@@ -56,10 +57,10 @@ jobs:
           repo: Cloud-Resume-Challenge-Infra
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           workflow_file_name: CICD.yml
-      - name: Deploy Web App
+      - name: job-upload-site is next
         run: |
-          echo "Deploy Web App"
-          sleep 25s
+          echo "Upload site"
+          sleep 5s
       
 
   job-upload-site:
