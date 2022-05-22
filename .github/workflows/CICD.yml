@@ -42,10 +42,8 @@ jobs:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
-  job-upload-site:
-    name: sync website files to s3 bucket and invalidate CloudFront
-    if: github.event_name == 'push'
-    needs: job-build
+  job-infrastructure:
+    name: Make sure infrastructure is up and running
     runs-on: ubuntu-latest
     steps:
       - name: Build Site
@@ -62,6 +60,14 @@ jobs:
         run: |
           echo "Deploy Web App"
           sleep 25s
+      
+
+  job-upload-site:
+    name: sync website files to s3 bucket and invalidate CloudFront
+    if: github.event_name == 'push'
+    needs: job-infrastructure
+    runs-on: ubuntu-latest
+    steps:     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: Set AWS Credentials
