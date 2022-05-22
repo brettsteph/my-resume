@@ -97,20 +97,3 @@ jobs:
       - name: Invalidate Cloudfront
         run: aws cloudfront create-invalidation --distribution-id env.distribution_id --paths "/*"
 
-  # job-invalidate-cdn:
-  #   name: Invalidate CloudFront
-  #   if: github.event_name == 'push'
-  #   needs: job-upload-site
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Set AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-  #         aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-  #         aws-region: "us-east-1" # optional: defaults to us-east-1
-  #     - name: Store Cloudfront Distribution Id in env variable
-  #       run: echo distribution_id=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin==secrets.AWS_S3_BUCKET].id" --output text >> "$GITHUB_ENV"
-  #     - name: Invalidate Cloudfront
-  #       run: aws cloudfront create-invalidation --distribution-id env.distribution_id --paths "/*"
