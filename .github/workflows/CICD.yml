@@ -63,7 +63,7 @@ jobs:
 
   job-upload-site:
     name: sync website files to s3 bucket and invalidate CloudFront
-    if: github.event_name == 'push'
+    # if: github.event_name == 'push'
     needs: job-infrastructure
     runs-on: ubuntu-latest
     steps:
@@ -93,7 +93,7 @@ jobs:
 
       - name: Store Cloudfront Distribution Id in env variable        
         run: |
-          echo $DIST_ID=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text >> "$GITHUB_ENV"
+          echo "$DIST_ID"=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text >> "$GITHUB_ENV"
        
       - name: Invalidate Cloudfront
         run: aws cloudfront create-invalidation --distribution-id "$DIST_ID" --paths "/*"
