@@ -1,1 +1,1 @@
-const API = 'https://BLAH.execute-api.us-east-1.amazonaws.com/prod';
+const API = 'https://<API_ID>.execute-api.us-east-1.amazonaws.com/prod';
