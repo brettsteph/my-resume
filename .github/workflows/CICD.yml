@@ -63,7 +63,7 @@ jobs:
 
   job-upload-site:
     name: sync website files to s3 bucket and invalidate CloudFront
-    # if: github.event_name == 'push'
+    if: github.event_name == 'push'
     needs: job-infrastructure
     runs-on: ubuntu-latest
     steps:
@@ -77,13 +77,13 @@ jobs:
           aws-region: "us-east-1" # optional: defaults to us-east-1
           # SOURCE_DIR: "resume-site" # optional: defaults to entire repository
 
-      - name: Get API Gateway ID and store in environmnt variable
-        env:
-          AWS_API_GATEWAY_NAME: ${{ secrets.AWS_API_GATEWAY_NAME }}
-        run: echo rest_api_id=aws apigateway get-rest-apis --query "items[?name=='$AWS_API_GATEWAY_NAME'].id" --output text >> "$GITHUB_ENV"
+      # - name: Get API Gateway ID and store in environmnt variable
+      #   env:
+      #     AWS_API_GATEWAY_NAME: ${{ secrets.AWS_API_GATEWAY_NAME }}
+      #   run: echo rest_api_id=aws apigateway get-rest-apis --query "items[?name=='$AWS_API_GATEWAY_NAME'].id" --output text >> "$GITHUB_ENV"
 
-      - name: Export API invoke url to a JavaScript file
-        run: echo const API = env.rest_api_id.execute-api.us-east-1.amazonaws.com/prod > ./invoke-url.js
+      # - name: Export API invoke url to a JavaScript file
+      #   run: echo const API = env.rest_api_id.execute-api.us-east-1.amazonaws.com/prod > ./invoke-url.js
 
       - name: Sync S3 Buckete
         env:
@@ -91,9 +91,11 @@ jobs:
         run: aws s3 cp . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --exclude ".DS_Store" --follow-symlinks --recursive
         # run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
 
-      - name: Store Cloudfront Distribution Id in env variable        
-        run: |
-          echo "$DIST_ID"=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text >> "$GITHUB_ENV"
+      # - name: Store Cloudfront Distribution Id in env variable        
+      #   run: |
+      #     echo "$DIST_ID"=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text >> "$GITHUB_ENV"
        
       - name: Invalidate Cloudfront
-        run: aws cloudfront create-invalidation --distribution-id "$DIST_ID" --paths "/*"
+        env:
+          AWS_CLOUDFRONT_DISTRIBUTION_ID: ${{secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID}}
+        run: aws cloudfront create-invalidation --distribution-id "$AWS_CLOUDFRONT_DISTRIBUTION_ID" --paths "/*"
