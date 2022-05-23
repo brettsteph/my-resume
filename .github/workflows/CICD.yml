@@ -91,22 +91,9 @@ jobs:
         run: aws s3 cp . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --exclude ".DS_Store" --follow-symlinks --recursive
         # run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
 
-      # - name: Store Cloudfront Distribution Id in env variable
-      #   run: echo distribution_id=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text >> "$GITHUB_ENV"
-
-      # - name: Invalidate Cloudfront
-      #   run: aws cloudfront create-invalidation --distribution-id env.distribution_id --paths "/*"
-  job-invalidate-cdn:
-    needs: job-upload-site
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
       - name: Store Cloudfront Distribution Id in env variable
         run: echo distribution_id=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text >> "$GITHUB_ENV"
-      - uses: awact/cloudfront-action@master
-        env:
-          SOURCE_PATH: "/"
-          AWS_REGION: "us-east-1"
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          DISTRIBUTION_ID: env.distribution_id
+
+      - name: Invalidate Cloudfront
+        run: aws cloudfront create-invalidation --distribution-id env.distribution_id --paths "/*"
+  
