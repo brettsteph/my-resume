@@ -88,10 +88,13 @@ jobs:
         run: echo const API = env.rest_api_id.execute-api.us-east-1.amazonaws.com/prod > ./invoke-url.js
 
 
-      - name: Copy to S3
+      - name: Sync S3 Bucket
         env:
           AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
-        run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
+      - uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        # run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
         
       - name: Store Cloudfront Distribution Id in env variable
         run: echo distribution_id=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text >> "$GITHUB_ENV"
