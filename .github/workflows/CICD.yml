@@ -82,7 +82,7 @@ jobs:
       - name: Get API Gateway ID and store in environmnt variable
         env:
           AWS_API_GATEWAY_NAME: ${{ secrets.AWS_API_GATEWAY_NAME }}    
-        run: echo rest_api_id=aws apigateway get-rest-apis --query "items[?name=="$env:AWS_API_GATEWAY_NAME"].id" --output text >> "$GITHUB_ENV"
+        run: echo rest_api_id=aws apigateway get-rest-apis --query "items[?name=='$env:AWS_API_GATEWAY_NAME'].id" --output text >> "$GITHUB_ENV"
 
       - name: Export API invoke url to a JavaScript file
         run: echo const API = env.rest_api_id.execute-api.us-east-1.amazonaws.com/prod > ./invoke-url.js
