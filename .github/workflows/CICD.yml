@@ -91,10 +91,12 @@ jobs:
         run: aws s3 cp . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --exclude ".DS_Store" --follow-symlinks --recursive
         # run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
 
-      - name: Store Cloudfront Distribution Id in env variable
+      - name: Store Cloudfront Distribution Id in env variable        
+        run: |
+          echo "DIST_ID: $DIST_ID"
+          DIST_ID=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text >> "$GITHUB_ENV"
         env:
-          distribution_id: "${{ github.event.inputs.distribution_id }}"
-        run: echo distribution_id=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text >> "$GITHUB_ENV"
+          DIST_ID: "${{ github.DIST_ID }}"
 
       - name: Invalidate Cloudfront
-        run: aws cloudfront create-invalidation --distribution-id env.distribution_id --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id $DIST_ID --paths "/*"
