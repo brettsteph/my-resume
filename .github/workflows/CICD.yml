@@ -64,11 +64,11 @@ jobs:
       
 
   job-upload-site:
-    name: sync website files to s3 bucket and invalidate CloudFront
+    name: sync website files to s3 bucket and invalidate CloudFront   
     if: github.event_name == 'push'
     needs: job-infrastructure
     runs-on: ubuntu-latest
-    steps:     
+    steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: Set AWS Credentials
@@ -77,18 +77,22 @@ jobs:
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
           aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
           aws-region: "us-east-1" # optional: defaults to us-east-1
-          # SOURCE_DIR: "resume-site" # optional: defaults to entire repository
-
+          # SOURCE_DIR: "resume-site" # optional: defaults to entire repository            
+            
       - name: Get API Gateway ID and store in environmnt variable
-        run: echo rest_api_id=aws apigateway get-rest-apis --query "items[?name==secrets.AWS_API_GATEWAY_NAME].id" --output text >> "$GITHUB_ENV"
+        env:
+          AWS_API_GATEWAY_NAME: ${{ secrets.AWS_API_GATEWAY_NAME }}    
+        run: echo rest_api_id=aws apigateway get-rest-apis --query "items[?name=="$env:AWS_API_GATEWAY_NAME"].id" --output text >> "$GITHUB_ENV"
 
       - name: Export API invoke url to a JavaScript file
         run: echo const API = env.rest_api_id.execute-api.us-east-1.amazonaws.com/prod > ./invoke-url.js
 
+
       - name: Copy to S3
-        run: aws s3 sync . s3://secret.AWS_S3_BUCKET --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
-        # env:
-        #   AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
+        env:
+          AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
+        run: aws s3 sync . s3://"$env:secret.AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
+        
           # aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
           # aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
           # aws-region: 'us-east-1'   # optional: defaults to us-east-1
