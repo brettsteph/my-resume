@@ -91,7 +91,7 @@ jobs:
       - name: Copy to S3
         env:
           AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
-        run: aws s3 sync . s3://"secret.AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
+        run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
         
           # aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
           # aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
