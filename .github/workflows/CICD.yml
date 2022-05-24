@@ -93,6 +93,8 @@ jobs:
         # run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
 
       - name: Store Cloudfront Distribution Id in env variable
+        env:
+          DIST_ID: ""
         run: |
           echo DIST_ID=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text >> "$DIST_ID"
        
