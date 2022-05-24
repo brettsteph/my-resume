@@ -56,6 +56,7 @@ jobs:
           repo: Cloud-Resume-Challenge-Infra
           github_token: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
           workflow_file_name: Infra-CICD.yml
+          client_payload: '{"name": "push"}'
       - name: job-upload-site is next
         run: |
           echo "Upload site"
