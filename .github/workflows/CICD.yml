@@ -83,7 +83,7 @@ jobs:
       #     AWS_API_GATEWAY_NAME: ${{ secrets.AWS_API_GATEWAY_NAME }}
       # - run: |
       #     REST_API_ID=$(aws apigateway get-rest-apis --query "items[?name=='$AWS_API_GATEWAY_NAME'].id" --output text)
-      #     echo "REST_API_ID=$REST_API_ID" >> $GITHUB_ENV
+      #     echo "REST_API_ID=$REST_API_ID" >> "$GITHUB_ENV"
       # - run: echo ${{ env.REST_API_ID }}
       # - name: Export API Gateway invoke url to a JavaScript file
       #   run: |
@@ -99,7 +99,7 @@ jobs:
       - name: Store Cloudfront Distribution Id in env variable
         run: |
           DIST_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text) 
-          echo "DIST_ID=$DIST_ID" >> $GITHUB_ENV
+          echo "DIST_ID=$DIST_ID" >> "$GITHUB_ENV"
       - run: echo ${{ env.DIST_ID }}
       - name: Invalidate Cloudfront
         # env:
