@@ -105,7 +105,6 @@ jobs:
       - name: Invalidate Cloudfront
         # env:
         #   AWS_CLOUDFRONT_DISTRIBUTION_ID: ${{secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID}}
-        run: echo "$DIST_ID"
-      - run: |
-          aws cloudfront create-invalidation --distribution-id "$DIST_ID" --paths "/*"
+        run: |
+          aws cloudfront create-invalidation --distribution-id "env.DIST_ID" --paths "/*"
           rm "$GITHUB_ENV"
