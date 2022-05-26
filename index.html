@@ -31,8 +31,7 @@
         Highly skilled and enthusiastic AWS Certified Solutions Architect Associate with development capability and
         knowledge
         in various technologies. Has analytical, problem-solving skills, and is able to work with minimal
-        supervision. Pursuing a career change as a Cloud Architect, Solutions Architect, Cloud Engineer, SRE Engineer,
-        DevOps Engineer, or a Software Engineer.
+        supervision. Pursuing a career change as a Cloud Engineer, SRE Engineer, DevOps Engineer, Cloud Architect, or Solutions Architect, 
       </p>
     </section>
     <section>
@@ -184,13 +183,13 @@
       w.document.getElementById("date").innerHTML = year;
     })(window);
 
-    (async (win) => {
+    (async (win, api) => {
 
       const options = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       }
-      const URL = API + '/visits';
+      const URL = api + '/visits';
       let response = await fetch(URL, options);
 
       if (response.ok) {
@@ -203,7 +202,7 @@
       } else {
         alert(`HTTP-Error: ${response.status}`)
       }
-    })(window);
+    })(window, API);
   </script>
 </body>
 
