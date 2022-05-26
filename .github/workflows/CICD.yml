@@ -14,6 +14,7 @@ on:
     
 env:
   DIST_ID: "?"
+  REST_API_ID: "?"
   AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -82,13 +83,13 @@ jobs:
           aws-region: "us-east-1" # optional: defaults to us-east-1
           # SOURCE_DIR: "resume-site" # optional: defaults to entire repository
 
-      # - name: Get API Gateway ID
-      #   env:
-      #     AWS_API_GATEWAY_NAME: ${{ secrets.AWS_API_GATEWAY_NAME }}
-      # - run: |
-      #     REST_API_ID=$(aws apigateway get-rest-apis --query "items[?name=='$AWS_API_GATEWAY_NAME'].id" --output text)
-      #     echo "REST_API_ID=$REST_API_ID" >> "$GITHUB_ENV"
-      # - run: echo ${{ env.REST_API_ID }}
+      - name: Get API Gateway ID
+        env:
+          AWS_API_GATEWAY_NAME: ${{ secrets.AWS_API_GATEWAY_NAME }}
+      - run: |
+          REST_API_ID=$(aws apigateway get-rest-apis --query "items[?name=='$AWS_API_GATEWAY_NAME'].id" --output text)
+          echo "REST_API_ID=$REST_API_ID" >> "$GITHUB_ENV"
+          echo $REST_API_ID
       # - name: Export API Gateway invoke url to a JavaScript file
       #   run: |
       #    INVOKE_URL=$(const API = env.REST_API_ID.execute-api.us-east-1.amazonaws.com/prod --output text)
