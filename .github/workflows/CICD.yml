@@ -99,8 +99,10 @@ jobs:
       - name: Store Cloudfront Distribution Id in env variable
         id: step_one
         run: |
-          DIST_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text)
-          echo "DIST_ID=$DIST_ID" >> "$GITHUB_ENV"
+          echo ::set-env name=DIST_ID::$(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text)
+
+      # DIST_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text)
+      # echo "DIST_ID=$DIST_ID" >> "$GITHUB_ENV"
       # - run: echo ${{ env.DIST_ID }}
       
       - name: Invalidate Cloudfront
@@ -108,6 +110,6 @@ jobs:
         # env:
         #   AWS_CLOUDFRONT_DISTRIBUTION_ID: ${{secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID}}
         run: |
-          echo ${{ env.DIST_ID }}
-          aws cloudfront create-invalidation --distribution-id "env.DIST_ID" --paths "/*"
+          echo "$DIST_ID"
+          aws cloudfront create-invalidation --distribution-id "$DIST_ID" --paths "/*"
           rm "$GITHUB_ENV"
