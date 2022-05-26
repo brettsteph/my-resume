@@ -11,6 +11,9 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    
+env:
+  DIST_ID: "" 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -99,11 +102,10 @@ jobs:
       - name: Store Cloudfront Distribution Id in env variable
         id: step_one
         run: |
-          echo ::set-env name=DIST_ID::$(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text)
-
-      # DIST_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text)
-      # echo "DIST_ID=$DIST_ID" >> "$GITHUB_ENV"
-      # - run: echo ${{ env.DIST_ID }}
+          DIST_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text)
+          env
+        # echo "DIST_ID=$DIST_ID" >> "$GITHUB_ENV"
+        # - run: env
       
       - name: Invalidate Cloudfront
         id: step_two
