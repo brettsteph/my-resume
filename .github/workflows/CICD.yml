@@ -92,7 +92,7 @@ jobs:
           echo "$REST_API_ID"
       - name: Export API Gateway invoke url to a JavaScript file
         run: |
-         echo const API = https://$REST_API_ID.execute-api.us-east-1.amazonaws.com/prod --output text > ./invoke-url.js
+         echo const API = https://"$REST_API_ID".execute-api.us-east-1.amazonaws.com/prod --output text > ./invoke-url.js
      
       - name: Sync S3 Bucket
         # env:
