@@ -89,7 +89,7 @@ jobs:
         run: |
           REST_API_ID=$(aws apigateway get-rest-apis --query "items[?name=='$AWS_API_GATEWAY_NAME'].id" --output text)
           echo "REST_API_ID=$REST_API_ID" >> "$GITHUB_ENV"
-          echo $REST_API_ID
+          echo "$REST_API_ID"
       # - name: Export API Gateway invoke url to a JavaScript file
       #   run: |
       #    INVOKE_URL=$(const API = env.REST_API_ID.execute-api.us-east-1.amazonaws.com/prod --output text)
