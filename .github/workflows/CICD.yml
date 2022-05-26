@@ -97,20 +97,17 @@ jobs:
       - name: Sync S3 Bucket
         # env:
         #   AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
-        run: aws s3 cp . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --exclude ".DS_Store" --follow-symlinks --recursive
-        # run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
+        # run: aws s3 cp . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --exclude ".DS_Store" --follow-symlinks --recursive
+        run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
 
       - name: Store Cloudfront Distribution Id in env variable
         id: step_one
         run: |
           DIST_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text)
           echo "DIST_ID=$DIST_ID" >> "$GITHUB_ENV"
-          echo "$DIST_ID"
-        # - run: env
+        # echo "$DIST_ID"
       
       - name: Invalidate Cloudfront
         id: step_two
-        # env:
-        #   AWS_CLOUDFRONT_DISTRIBUTION_ID: ${{secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID}}
         run: |
           aws cloudfront create-invalidation --distribution-id "$DIST_ID" --paths "/*"
