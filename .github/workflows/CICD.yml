@@ -86,7 +86,7 @@ jobs:
       - name: Get API Gateway ID
         env:
           AWS_API_GATEWAY_NAME: ${{ secrets.AWS_API_GATEWAY_NAME }}
-      - run: |
+        run: |
           REST_API_ID=$(aws apigateway get-rest-apis --query "items[?name=='$AWS_API_GATEWAY_NAME'].id" --output text)
           echo "REST_API_ID=$REST_API_ID" >> "$GITHUB_ENV"
           echo $REST_API_ID
