@@ -13,7 +13,8 @@ on:
   workflow_dispatch:
     
 env:
-  DIST_ID: "" 
+  DIST_ID: ""
+  AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -94,8 +95,8 @@ jobs:
       #    echo "INVOKE_URL=$"INVOKE_URL" > ./invoke-url.js
       # - run: echo ${{ env.INVOKE_URL }}
       - name: Sync S3 Bucket
-        env:
-          AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
+        # env:
+        #   AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
         run: aws s3 cp . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --exclude ".DS_Store" --follow-symlinks --recursive
         # run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
 
@@ -104,7 +105,8 @@ jobs:
         run: |
           DIST_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='$AWS_S3_BUCKET'].id" --output text)
           echo "DIST_ID=$DIST_ID" >> "$GITHUB_ENV"
-          env
+          echo "$GITHUB_ENV"
+          echo "$DIST_ID"
         # - run: env
       
       - name: Invalidate Cloudfront
@@ -112,6 +114,4 @@ jobs:
         # env:
         #   AWS_CLOUDFRONT_DISTRIBUTION_ID: ${{secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID}}
         run: |
-          echo "$DIST_ID"
           aws cloudfront create-invalidation --distribution-id "$DIST_ID" --paths "/*"
-          rm "$GITHUB_ENV"
