@@ -21,6 +21,7 @@ body {
   margin: auto;
   margin-top: 40px;
   margin-bottom: 40px;
+  min-width: 600px;
   width: 46vw;
   box-shadow: -3px 5px 5px 1px #667ea6;
 }
