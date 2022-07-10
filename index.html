@@ -195,7 +195,7 @@
         if (response.status === 200) {
           let json = await response.json();
 
-          let el = win.document.getElementById('visits');
+          let el = win.document.getElementById('visitors');
           el.children[0].textContent = json.visits;
         }
       } else {
