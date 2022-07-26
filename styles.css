@@ -21,8 +21,9 @@ body {
   margin: auto;
   margin-top: 40px;
   margin-bottom: 40px;
-  min-width: 600px;
-  width: 46vw;
+  min-width: 9.81rem;
+  /* width: 46vw; */
+  max-width: 49.81rem;
   box-shadow: -3px 5px 5px 1px #667ea6;
 }
 
@@ -115,11 +116,13 @@ ul > li {
 .title {
   color: #5b5a5a;
   font-weight: normal;
+  margin-top: -1.25rem;;
 }
 
 .date {
-  margin-top: -0.8em;
+  margin-top: -1.5em;
   color: gray;
+  font-size: 0.8rem;
 }
 
 .certs {
