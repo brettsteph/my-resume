@@ -67,14 +67,24 @@ jobs:
           echo "Upload site"
           sleep 3s
 
-  job-upload-site:
+  job-build-upload-site:
     name: sync website files to s3 bucket and invalidate CloudFront
     if: github.event_name == 'push'
     needs: job-infrastructure
     runs-on: ubuntu-latest
     steps:
+      - name: Checking out code
+        uses: actions/checkout@v3
+      - name: Installing Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: Installing dependencies
+        run: npm install
+      - name: Building project
+        run: npm run build
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
       - name: Set AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -92,12 +102,9 @@ jobs:
           echo "$REST_API_ID"
       - name: Export API Gateway invoke url to a JavaScript file
         run: |
-         echo const API = "'https://$REST_API_ID.execute-api.us-east-1.amazonaws.com/prod'" > ./invoke-url.js
+         echo -e const API = "'https://$REST_API_ID.execute-api.us-east-1.amazonaws.com/prod';""\nexport default API;" > ./invoke-url.js
      
-      - name: Sync S3 Bucket
-        # env:
-        #   AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
-        # run: aws s3 cp . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --exclude ".DS_Store" --follow-symlinks --recursive
+      - name: Sync S3 Bucket        
         run: aws s3 sync . s3://"$AWS_S3_BUCKET" --exclude ".gitignore" --exclude ".git*/*" --follow-symlinks --delete
 
       - name: Store Cloudfront Distribution Id in env variable
