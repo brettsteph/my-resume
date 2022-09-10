@@ -54,7 +54,7 @@ jobs:
       - name: Build Site
         run: |
           echo "BuildSite"
-          sleep 5s
+          sleep 3s
       - uses: convictional/trigger-workflow-and-wait@v1.6.1
         with:
           owner: igadget777
@@ -65,7 +65,7 @@ jobs:
       - name: job-upload-site is next
         run: |
           echo "Upload site"
-          sleep 5s
+          sleep 3s
 
   job-upload-site:
     name: sync website files to s3 bucket and invalidate CloudFront
