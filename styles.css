@@ -21,8 +21,7 @@ body {
   margin: auto;
   margin-top: 40px;
   margin-bottom: 40px;
-  min-width: 9.81rem;
-  /* width: 46vw; */
+  min-width: 600px;
   max-width: 49.81rem;
   box-shadow: -3px 5px 5px 1px #667ea6;
 }
@@ -42,6 +41,7 @@ header h1 {
 
 header .first-name {
   font-weight: 700;
+  color:#1e83dc
 }
 
 header .last-name {
@@ -82,11 +82,11 @@ section h2 {
   font-size: 1.07em;
   color: #398cbc;
   letter-spacing: 1px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 
 section p {
-  margin-top: 0.5em;
+  margin: 0;
   padding: 0;
 }
 
@@ -98,12 +98,29 @@ section a:visited {
   color: #1c588c;
 }
 
-hr {
-  margin-top: -0.85em;
+
+ul, ol {
+  margin: 0;
 }
 
 ul > li {
   padding-bottom: 0.25em;
+}
+
+/* ::before creates a pseudo-element
+that is the first child of the 
+selected element*/
+ol {
+  list-style: none;
+}
+
+ol > li::before{
+     /* Unicode for >> character*/
+    content: "\00BB";
+}
+
+ol > li {
+  margin-left: -1rem;
 }
 
 .separator {
@@ -119,8 +136,13 @@ ul > li {
   margin-top: -1.25rem;;
 }
 
+.company {
+  float:left;
+  width:50%
+}
+
 .date {
-  margin-top: -1.5em;
+  text-align: right;
   color: gray;
   font-size: 0.8rem;
 }
