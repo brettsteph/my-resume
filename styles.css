@@ -90,12 +90,12 @@ section p {
   padding: 0;
 }
 
-section a:hover {
+a:hover {
   text-decoration: none;
 }
 
-section a:visited {
-  color: #1c588c;
+a:visited {
+  color: #195991;
 }
 
 
