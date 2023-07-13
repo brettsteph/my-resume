@@ -136,6 +136,10 @@ ol > li {
   margin-top: -1.25rem;;
 }
 
+.contact p{
+  margin-left: 0;
+}
+
 .company {
   float:left;
   width:50%
